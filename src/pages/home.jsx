@@ -49,7 +49,7 @@ export const Home = () => {
         getPostsData()
     }, [])
 
-    const sortingData = ["Ascending", "Discending"]
+    const sortingData = ["Ascending", "Descending"]
 
     const handleFiltering = (item) => {
         setSortedData([])
@@ -67,12 +67,26 @@ export const Home = () => {
         if (item && postsData.posts && postsData.posts.length) {
             let data = postsData.posts
             if (item == "Ascending") {
-                data.sort((a, b) => { return (a.userId < b.userId) })
+                data.sort((a, b) => {
+                    if (a['title'] < b['title'])
+                        return -1
+                    else if (a['title'] > b['title'])
+                        return 1
+                    else return 0
+                })
+                setPostsData({ posts: [...data] })
             }
             else if (item == "Descending") {
-                data.sort((a, b) => { return (a.userId > b.userId) })
+                data.sort((a, b) => {
+                    if (a['title'] > b['title'])
+                        return -1
+                    else if (a['title'] < b['title'])
+                        return 1
+                    else return 0
+                })
+                setPostsData({ posts: [...data] })
             }
-            setPostsData([...data])
+
         }
     }
 
